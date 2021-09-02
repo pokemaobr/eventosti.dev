@@ -29,6 +29,16 @@
             integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFY66MNQ41"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CFY66MNQ41');
+    </script>
+
 </head>
 
 <body>
@@ -36,7 +46,7 @@
     <div class="branding">
         <div class="container-fluid">
             <nav class="main-nav navbar navbar-expand-lg">
-                <div class="site-logo"><a class="scrollto" href="{{ path('index') }}"><img class="logo-icon"
+                <div class="site-logo"><a href="{{ path('index') }}"><img class="logo-icon"
                                                                                    src="assets/images/eventosti2.png"
                                                                                    alt="logo"></a></div>
 

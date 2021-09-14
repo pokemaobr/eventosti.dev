@@ -113,7 +113,7 @@
                 <li><i class="fas fa-check-circle me-2"></i>Ajude a comunidade a conhecer novos eventos</li>
             </ul>
         </div><!--//benefits-list-->
-        {% if (date(eventos[0].dataFim) >= date()) and (eventos|lenght >= 2 and (date(eventos[1].dataFim) >= date())) %}
+        {% if (date(eventos[0].dataFim) >= date()) and (eventos|length >= 2 and (date(eventos[1].dataFim) >= date())) %}
             <div class="event-countdown text-center mb-3">
                 <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Estão acontecendo eventos agora!</a></h4>
             </div>

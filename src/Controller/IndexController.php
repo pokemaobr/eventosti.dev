@@ -15,22 +15,13 @@ class IndexController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $hoje = new \DateTime();
 
-       // $eventos = $entityManager->getRepository('App\\Entity\\Eventos')->findBy(['habilitado' => 1, 'dataFim'  $hoje], ['dataInicio' => 'asc', 'dataFim' => 'asc']);
+        $eventos = $this->getDoctrine()
+            ->getRepository(Eventos::class)
+            ->findByGreaterThanDataFimAndHabilitadoIsTrue($hoje);
 
-        $query = $entityManager->createQuery('
-        Select e
-        FROM App\Entity\Eventos e
-        WHERE e.habilitado = 1 AND e.dataFim >= :hoje
-        ORDER BY e.dataFim ASC')
-            ->setParameter('hoje', $hoje);
-
-        $eventos = $query->getResult();
-
-        return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online',1 => 'Presencial', 2 => 'Híbrido']]);
+        return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online', 1 => 'Presencial', 2 => 'Híbrido']]);
 
     }
 
@@ -71,14 +62,14 @@ class IndexController extends AbstractController
             $entityManager->persist($eventos);
             $entityManager->flush();
 
-            return $this->redirectToRoute('cadastrar',['status' => 1]);
+            return $this->redirectToRoute('cadastrar', ['status' => 1]);
 
         } catch (Exception) {
-            return $this->redirectToRoute('cadastrar',['status' => 2]);
+            return $this->redirectToRoute('cadastrar', ['status' => 2]);
         }
 
 
-        return $this->render('cadastrar.html.twig',['status' => 2]);
+        return $this->render('cadastrar.html.twig', ['status' => 2]);
     }
 
     #[Route('/upload', name: 'upload', methods: ['POST'])]
@@ -105,4 +96,34 @@ class IndexController extends AbstractController
 
         return $this->render('upload.html.twig', ['imageName' => $imageName]);
     }
+
+    #[Route('/logar', name: 'logar')]
+    public function logar(): Response
+    {
+        return $this->render('logar.html.twig');
+
+    }
+
+    #[Route('/habilitar', name: 'habilitar', methods: ['POST'])]
+    public function habilitar(Request $request): Response
+    {
+
+        $chave = $request->request->get('chave');
+
+        if ($chave == $_ENV['CHAVE_MESTRA']) {
+
+            $hoje = new \DateTime();
+
+            $eventos = $this->getDoctrine()
+                ->getRepository(Eventos::class)
+                ->findByGreaterThanDataFim($hoje);
+
+        return $this->render('habilitar.html.twig',['eventos' => $eventos]);
+
+        }
+
+        return $this->render('logar.html.twig', ['validate' => false]);
+
+    }
 }
+

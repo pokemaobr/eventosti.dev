@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class IndexController extends AbstractController
 {
 
+    public function __construct(public SessionInterface $session)
+    {
+    }
+
     #[Route('/', name: 'index')]
     public function index(): Response
     {
@@ -110,30 +114,39 @@ class IndexController extends AbstractController
     public function habilitar(Request $request): Response
     {
 
-        $chave = $request->request->get('chave');
+        $token = $request->request->get('token');
 
-        if ($chave == $_ENV['CHAVE_MESTRA']) {
+        // 'delete-item' is the same value used in the template to generate the token
+        if ($this->isCsrfTokenValid('habilitar', $token)) {
 
-            $hoje = new \DateTime();
+            $this->session->set('chave', $token);
+            $chave = $request->request->get('chave');
 
-            $eventos = $this->getDoctrine()
-                ->getRepository(Eventos::class)
-                ->pegarEventosFuturos($hoje);
+            if ($chave == $_ENV['CHAVE_MESTRA']) {
 
-            return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+                $hoje = new \DateTime();
+
+                $eventos = $this->getDoctrine()
+                    ->getRepository(Eventos::class)
+                    ->pegarEventosFuturos($hoje);
+
+                return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+
+            }
+
+            return $this->render('logar.html.twig', ['validate' => false]);
 
         }
-
-        return $this->render('logar.html.twig', ['validate' => false]);
 
     }
 
     #[Route('/habilitar-evento/{id}', name: 'habilitar-evento', methods: ['GET'])]
     public function habilitarEvento(Eventos $evento, Request $request): Response
     {
-        $referer = $request->server->get('HTTP_REFERER');
+        $token = $this->session->get('chave');
 
-        if ($referer == $request->getSchemeAndHttpHost() . '/habilitar') {
+        if ($this->isCsrfTokenValid('habilitar', $token)) {
+
 
             $entityManager = $this->getDoctrine()->getManager();
 
@@ -166,9 +179,9 @@ class IndexController extends AbstractController
     public function desabilitarEvento(Eventos $evento, Request $request): Response
     {
 
-        $referer = $request->server->get('HTTP_REFERER');
+        $token = $this->session->get('chave');
 
-        if ($referer == $request->getSchemeAndHttpHost() . '/habilitar') {
+        if ($this->isCsrfTokenValid('habilitar', $token)) {
 
             $entityManager = $this->getDoctrine()->getManager();
             //$evento = $entityManager->getRepository('App\\Entity\\Eventos')->findOneBy(['id' => $id]);
@@ -191,8 +204,8 @@ class IndexController extends AbstractController
 
             }
 
-
         }
+
         return new JsonResponse(
             ['data' => 2]
         );

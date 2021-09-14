@@ -70,7 +70,7 @@
 
 <div id="hero-area" class="hero-area section">
     <div class="container">
-        <form action="{{ path('cadastro') }}" id="form-validation" method="POST" novalidate>
+        <form action="{{ path('cadastro') }}" id="form-validation" method="POST">
             {% if (app.request.query.get("status") is defined and app.request.query.get("status") == 1) %}
                 <p class="alert alert-success"> EVENTO cadastrado com SUCESSO! Aguarde a administração aprovar para aparecer no site! </p>
             {% elseif (app.request.query.get("status") is defined and app.request.query.get("status") == 2) %}
@@ -80,7 +80,7 @@
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="nick">Nome:* </label>
                 <input type="text" name="nome" class="form-control form-control-lg" id="nome"
-                       placeholder="Nome do evento" required
+                       placeholder="Nome do evento" required="required"
                 >
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
@@ -101,7 +101,7 @@
 
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="imagem">Imagem do Evento:* </label>
-                <input type="file" name="upload_image" id="upload_image" />
+                <input type="file" name="upload_image" id="upload_image" required />
                 <br />
                 <div id="uploaded_image"></div>
                 <input type="hidden" name="imagem" id="imagem" value="" required >

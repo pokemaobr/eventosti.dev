@@ -109,10 +109,16 @@
                 <li><i class="fas fa-check-circle me-2"></i>Ajude a comunidade a conhecer novos eventos</li>
             </ul>
         </div><!--//benefits-list-->
+        {% if date(eventos[0].dataFim) >= date() %}
+            <div class="event-countdown text-center mb-3">
+                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger">Está acontecendo um evento agora!</h4>
+            </div>
+        {% else %}
         <div class="event-countdown text-center mb-3">
             <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
             <div id="countdown-box" class="countdown-box"></div>
         </div><!--//event-countdown-->
+        {% endif %}
     </div><!--//container-->
 </section>
 <section id="eventos-anteriores-section" class="section theme-bg-light">

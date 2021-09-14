@@ -17,7 +17,18 @@ class IndexController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $eventos = $entityManager->getRepository('App\\Entity\\Eventos')->findBy(['habilitado' => 1], ['dataInicio' => 'asc', 'dataFim' => 'asc']);
+        $hoje = new \DateTime();
+
+       // $eventos = $entityManager->getRepository('App\\Entity\\Eventos')->findBy(['habilitado' => 1, 'dataFim'  $hoje], ['dataInicio' => 'asc', 'dataFim' => 'asc']);
+
+        $query = $entityManager->createQuery('
+        Select e
+        FROM App\Entity\Eventos e
+        WHERE e.habilitado = 1 AND e.dataFim >= :hoje
+        ORDER BY e.dataFim ASC')
+            ->setParameter('hoje', $hoje);
+
+        $eventos = $query->getResult();
 
         return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online',1 => 'Presencial', 2 => 'Híbrido']]);
 

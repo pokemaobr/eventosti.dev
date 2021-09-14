@@ -97,10 +97,20 @@
                 <li><i class="fas fa-check-circle me-2"></i>Ajude a comunidade a conhecer novos eventos</li>
             </ul>
         </div><!--//benefits-list-->
-        <div class="event-countdown text-center mb-3">
-            <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
-            <div id="countdown-box" class="countdown-box"></div>
-        </div><!--//event-countdown-->
+
+        {{ eventos[0].dataFim | date('U') }}
+        {{ date() | date('U') }}
+        {% if (eventos[0].dataFim | date('U')) < (date() | date('U')) %}
+
+            <div class="event-countdown text-center mb-3">
+                <h4 class="countdown-intro mb-2 text-center mb-3">Está acontecendo um evento agora!</h4>
+            </div>
+        {% else %}
+            <div class="event-countdown text-center mb-3">
+                <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
+                <div id="countdown-box" class="countdown-box"></div>
+            </div><!--//event-countdown-->
+        {% endif %}
         <div class="about-cta text-center mb-5"><a class="btn btn-secondary btn-lg  mb-5"
                                                    href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/devconf-free-bootstrap-4-conference-template-for-tech-conferences-and-events/"
                                                    target="_blank">Get Your Ticket Today</a></div>
@@ -143,7 +153,7 @@
             <div class="col-6 col-lg-3 mb-4">
                 <div class="card rounded-0">
                     <a href="#modal-speaker-1" data-bs-toggle="modal" data-bs-target="#modal-speaker-1"><img
-                            src="assets/images/events/feministech1.png" class="card-img-top rounded-0" alt=""></a>
+                                src="assets/images/events/feministech1.png" class="card-img-top rounded-0" alt=""></a>
                     <div class="card-body">
                         <h5 class="card-title mb-2">Feministalks</h5>
                         <div class="card-text mb-3">
@@ -165,7 +175,7 @@
             <div class="col-6 col-lg-3 mb-4">
                 <div class="card rounded-0">
                     <a href="#modal-speaker-1" data-bs-toggle="modal" data-bs-target="#modal-speaker-1"><img
-                            src="assets/images/events/azure.png" class="card-img-top rounded-0" alt=""></a>
+                                src="assets/images/events/azure.png" class="card-img-top rounded-0" alt=""></a>
                     <div class="card-body">
                         <h5 class="card-title mb-2">Imersão Azure</h5>
                         <div class="card-text mb-3">
@@ -243,7 +253,7 @@
 
         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
         <small class="copyright">Designed with <i class="fas fa-heart" style="color: #EC645E;"></i> by <a
-                href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+                    href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
 
     </div><!--//container-->
 </footer>

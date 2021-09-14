@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Eventos;
+use App\Repository\EventosRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class IndexController extends AbstractController
 {
@@ -19,7 +21,7 @@ class IndexController extends AbstractController
 
         $eventos = $this->getDoctrine()
             ->getRepository(Eventos::class)
-            ->findByGreaterThanDataFimAndHabilitadoIsTrue($hoje);
+            ->pegarEventosFuturosHabilitados($hoje);
 
         return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online', 1 => 'Presencial', 2 => 'Híbrido']]);
 
@@ -116,14 +118,84 @@ class IndexController extends AbstractController
 
             $eventos = $this->getDoctrine()
                 ->getRepository(Eventos::class)
-                ->findByGreaterThanDataFim($hoje);
+                ->pegarEventosFuturos($hoje);
 
-        return $this->render('habilitar.html.twig',['eventos' => $eventos]);
+            return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
 
         }
 
         return $this->render('logar.html.twig', ['validate' => false]);
 
+    }
+
+    #[Route('/habilitar-evento/{id}', name: 'habilitar-evento', methods: ['GET'])]
+    public function habilitarEvento(Eventos $evento, Request $request): Response
+    {
+        $referer = $request->server->get('HTTP_REFERER');
+
+        if ($referer == $request->getSchemeAndHttpHost() . '/habilitar') {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            if (!empty($evento)) {
+
+                try {
+                    $evento->setHabilitado(1);
+                    $entityManager->persist($evento);
+                    $entityManager->flush();
+                    return new JsonResponse(
+                        ['data' => 1]
+                    );
+
+                } catch (\Exception) {
+                    return new JsonResponse(
+                        ['data' => 2]
+                    );
+                }
+
+            }
+
+
+        }
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
+    public function desabilitarEvento(Eventos $evento, Request $request): Response
+    {
+
+        $referer = $request->server->get('HTTP_REFERER');
+
+        if ($referer == $request->getSchemeAndHttpHost() . '/habilitar') {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            //$evento = $entityManager->getRepository('App\\Entity\\Eventos')->findOneBy(['id' => $id]);
+
+            if (!empty($evento)) {
+
+                try {
+                    $evento->setHabilitado(0);
+                    $entityManager->persist($evento);
+                    $entityManager->flush();
+                    return new JsonResponse(
+                        ['data' => 1]
+                    );
+
+                } catch (\Exception) {
+                    return new JsonResponse(
+                        ['data' => 2]
+                    );
+                }
+
+            }
+
+
+        }
+        return new JsonResponse(
+            ['data' => 2]
+        );
     }
 }
 

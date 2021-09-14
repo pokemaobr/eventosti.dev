@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EventosRepository as EventoRepository;
 
 /**
  * Eventos
  *
  * @ORM\Table(name="eventos")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EventosRepository")
  */
 class Eventos
 {

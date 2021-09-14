@@ -14,7 +14,7 @@ class EventosRepository extends ServiceEntityRepository
         parent::__construct($registry, Eventos::class);
     }
 
-    public function findByGreaterThanDataFim(\DateTime $agora)
+    public function pegarEventosFuturos(\DateTime $agora)
     {
 
         $entityManager = $this->getEntityManager();
@@ -30,7 +30,7 @@ class EventosRepository extends ServiceEntityRepository
 
     }
 
-    public function findByGreaterThanDataFimAndHabilitadoIsTrue(\DateTime $agora)
+    public function pegarEventosFuturosHabilitados(\DateTime $agora)
     {
 
         $entityManager = $this->getEntityManager();

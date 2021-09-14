@@ -25,7 +25,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFY66MNQ41"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-CFY66MNQ41');
@@ -52,7 +56,7 @@
             <div class="hero-intro mb-4">Descubra eventos de TI <br> Online ou Perto de Você.</div>
             <div class="hero-cta"><a class="btn btn-primary btn-lg"
                                      href="#proximos-eventos-section"
-                                     >Encontrar Eventos</a></div>
+                >Encontrar Eventos</a></div>
 
         </div><!--//hero-text-block-->
     </div><!--//container-->
@@ -109,15 +113,19 @@
                 <li><i class="fas fa-check-circle me-2"></i>Ajude a comunidade a conhecer novos eventos</li>
             </ul>
         </div><!--//benefits-list-->
-        {% if date(eventos[0].dataFim) >= date() %}
+        {% if (date(eventos[0].dataFim) >= date()) AND (eventos|lenght >= 2 AND (date(eventos[1].dataFim) >= date())) %}
             <div class="event-countdown text-center mb-3">
-                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger">Está acontecendo um evento agora!</h4>
+                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Estão acontecendo eventos agora!</a></h4>
+            </div>
+        {% elseif date(eventos[0].dataFim) >= date() %}
+            <div class="event-countdown text-center mb-3">
+                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Está acontecendo um evento agora!</a></h4>
             </div>
         {% else %}
-        <div class="event-countdown text-center mb-3">
-            <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
-            <div id="countdown-box" class="countdown-box"></div>
-        </div><!--//event-countdown-->
+            <div class="event-countdown text-center mb-3">
+                <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
+                <div id="countdown-box" class="countdown-box"></div>
+            </div><!--//event-countdown-->
         {% endif %}
     </div><!--//container-->
 </section>
@@ -210,37 +218,47 @@
 <section id="parceiros-section" class="parceiros-section section">
     <div class="container">
         <h3 class="section-heading text-center mb-3">Patrocinadores e Parceiros</h3>
-        <div class="section-intro text-center single-col-max mx-auto mb-5">Quer ajudar o eventosti.dev a crescer? Torne-se patrocinador ou parceiro do site. Basta enviar um e-mail para contato@pokemaobr.dev com o título "Parceria eventosti.dev"
+        <div class="section-intro text-center single-col-max mx-auto mb-5">Quer ajudar o eventosti.dev a crescer?
+            Torne-se patrocinador ou parceiro do site. Basta enviar um e-mail para contato@pokemaobr.dev com o título
+            "Parceria eventosti.dev"
         </div>
         <div class="row logos justify-content-center">
-            <a href="https://pokemaobr.dev"><div class="logo-item col-6 col-md-4 col-lg-2"><img src="https://pokemaobr.dev/img/pokemaobr.png" alt=""></a></div>
-           </div><!--//row-->
-        </div><!--//container-->
+            <a href="https://pokemaobr.dev">
+                <div class="logo-item col-6 col-md-4 col-lg-2"><img src="https://pokemaobr.dev/img/pokemaobr.png"
+                                                                    alt="">
+            </a></div>
+    </div><!--//row-->
+    </div><!--//container-->
 </section><!--//sponsors-section-->
 
 <footer class="footer py-5 theme-bg-primary">
     <div class="container text-center">
 
         <ul class="social-list list-inline mb-4">
-            <li class="list-inline-item me-3"><a href="https://twitter.com/eventostidev"><i class="fab fa-twitter fa-fw"></i></a></li>
-            <li class="list-inline-item me-3"><a href="https://t.me/eventosti"><i class="fab fa-telegram fa-fw"></i></a></li>
-            <li class="list-inline-item me-3"><a href="https://twitch.tv/pokemaobr"><i class="fab fa-twitch"></i></a></li>
-            <li class="list-inline-item me-0"><a href="https://github.com/pokemaobr/eventosti.dev"><i class="fab fa-github fa-fw"></i></a></li>
+            <li class="list-inline-item me-3"><a href="https://twitter.com/eventostidev"><i
+                            class="fab fa-twitter fa-fw"></i></a></li>
+            <li class="list-inline-item me-3"><a href="https://t.me/eventosti"><i class="fab fa-telegram fa-fw"></i></a>
+            </li>
+            <li class="list-inline-item me-3"><a href="https://twitch.tv/pokemaobr"><i class="fab fa-twitch"></i></a>
+            </li>
+            <li class="list-inline-item me-0"><a href="https://github.com/pokemaobr/eventosti.dev"><i
+                            class="fab fa-github fa-fw"></i></a></li>
 
         </ul><!--//social-list-->
 
 
-       <!-- <ul class="footer-links list-inline mx-auto mb-4">
-            <li class="list-inline-item"><a href="#">Code of Conduct</a></li>
-            <li class="list-inline-item">|</li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item">|</li>
-            <li class="list-inline-item me-0"><a href="#">Privacy</a></li>
-        </ul>//footer-link-->
+        <!-- <ul class="footer-links list-inline mx-auto mb-4">
+             <li class="list-inline-item"><a href="#">Code of Conduct</a></li>
+             <li class="list-inline-item">|</li>
+             <li class="list-inline-item"><a href="#">Terms</a></li>
+             <li class="list-inline-item">|</li>
+             <li class="list-inline-item me-0"><a href="#">Privacy</a></li>
+         </ul>//footer-link-->
 
         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
         <small class="copyright">Designed with <i class="fas fa-heart" style="color: #EC645E;"></i> by <a
-                    href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers | Back-end desenvolvido por: <a href="https://pokemaobr.dev">pokemaobr</a> & chat durante lives na twitch :)</small>
+                    href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers | Back-end
+            desenvolvido por: <a href="https://pokemaobr.dev">pokemaobr</a> & chat durante lives na twitch :)</small>
 
     </div><!--//container-->
 </footer>

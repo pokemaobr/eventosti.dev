@@ -73,9 +73,6 @@ class IndexController extends AbstractController
             $email = new EmailService('pokemaobr', 'contato@pokemaobr.dev');
             $email->avisarCadastro($request->request->get('nome'), $mailer);
 
-            $telegram = new TelegramService();
-            $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
-
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
 
         } catch (Exception) {
@@ -139,6 +136,9 @@ class IndexController extends AbstractController
             $eventos = $this->getDoctrine()
                 ->getRepository(Eventos::class)
                 ->pegarEventosFuturos($hoje);
+
+            $telegram = new TelegramService();
+            $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
 
             return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
 

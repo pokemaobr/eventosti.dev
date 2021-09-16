@@ -12,6 +12,7 @@ use App\Entity\Eventos;
 use App\Repository\EventosRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\EmailService;
+use App\Service\TelegramService;
 
 class IndexController extends AbstractController
 {
@@ -46,32 +47,34 @@ class IndexController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         try {
-            $eventos = new Eventos;
-            $eventos->setNome($request->request->get('nome'));
-            $eventos->setTipo($request->request->get('tipo'));
-            $eventos->setLocal($request->request->get('local'));
-            $eventos->setImagem($request->request->get('imagem'));
-            $eventos->setDescricao($request->request->get('descricao'));
-            $eventos->setDataInicio(new \DateTime($request->request->get('dataInicio')));
-            $eventos->setDataFim(new \DateTime($request->request->get('dataFim')));
-            $eventos->setLink($request->request->get('link'));
+            $evento = new Eventos;
+            $evento->setNome($request->request->get('nome'));
+            $evento->setTipo($request->request->get('tipo'));
+            $evento->setLocal($request->request->get('local'));
+            $evento->setImagem($request->request->get('imagem'));
+            $evento->setDescricao($request->request->get('descricao'));
+            $evento->setDataInicio(new \DateTime($request->request->get('dataInicio')));
+            $evento->setDataFim(new \DateTime($request->request->get('dataFim')));
+            $evento->setLink($request->request->get('link'));
             if (!empty($request->request->get('twitter'))) {
-                $eventos->setTwitter($request->request->get('twitter'));
+                $evento->setTwitter($request->request->get('twitter'));
             }
             if (!empty($request->request->get('instagram'))) {
-                $eventos->setInstagram($request->request->get('instagram'));
+                $evento->setInstagram($request->request->get('instagram'));
             }
             if (!empty($request->request->get('outro'))) {
-                $eventos->setOutro($request->request->get('outro'));
+                $evento->setOutro($request->request->get('outro'));
             }
-            $eventos->setHabilitado(0);
+            $evento->setHabilitado(0);
 
-
-            $entityManager->persist($eventos);
+            $entityManager->persist($evento);
             $entityManager->flush();
 
             $email = new EmailService('pokemaobr', 'contato@pokemaobr.dev');
             $email->avisarCadastro($request->request->get('nome'), $mailer);
+
+            $telegram = new TelegramService();
+            $telegram->nviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
 
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
 

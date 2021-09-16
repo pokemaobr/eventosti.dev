@@ -74,7 +74,7 @@ class IndexController extends AbstractController
             $email->avisarCadastro($request->request->get('nome'), $mailer);
 
             $telegram = new TelegramService();
-            $telegram->nviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
+            $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
 
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
 

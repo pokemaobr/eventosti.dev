@@ -6,7 +6,7 @@ use App\Entity\Eventos;
 
 class TelegramService {
 
-    private function enviaMensagemCadastroEvento(int $chatId, Eventos $evento) {
+    public function enviaMensagemCadastroEvento(int $chatId, Eventos $evento) {
 
         $mensagem = 'Mais um evento cadastrado na plataforma https://eventosti.dev confira agora! ' .$evento->getNome() . ' em: ' . $evento->getLink();
 

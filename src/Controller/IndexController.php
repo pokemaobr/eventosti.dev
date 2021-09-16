@@ -122,61 +122,27 @@ class IndexController extends AbstractController
             $this->session->set('chave', $token);
             $chave = $request->request->get('chave');
 
-            if ($chave == $_ENV['CHAVE_MESTRA']) {
-
-                $hoje = new \DateTime();
-
-                $eventos = $this->getDoctrine()
-                    ->getRepository(Eventos::class)
-                    ->pegarEventosFuturos($hoje);
-
-                return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
-
+            if ($chave != $_ENV['CHAVE_MESTRA']) {
+                return $this->render('logar.html.twig', ['validate' => false]);
             }
 
-            return $this->render('logar.html.twig', ['validate' => false]);
+            $hoje = new \DateTime();
+
+            $eventos = $this->getDoctrine()
+                ->getRepository(Eventos::class)
+                ->pegarEventosFuturos($hoje);
+
+            return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
 
         }
+
+        return $this->render('logar.html.twig', ['validate' => false]);
+
 
     }
 
     #[Route('/habilitar-evento/{id}', name: 'habilitar-evento', methods: ['GET'])]
     public function habilitarEvento(Eventos $evento, Request $request): Response
-    {
-        $token = $this->session->get('chave');
-
-        if ($this->isCsrfTokenValid('habilitar', $token)) {
-
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            if (!empty($evento)) {
-
-                try {
-                    $evento->setHabilitado(1);
-                    $entityManager->persist($evento);
-                    $entityManager->flush();
-                    return new JsonResponse(
-                        ['data' => 1]
-                    );
-
-                } catch (\Exception) {
-                    return new JsonResponse(
-                        ['data' => 2]
-                    );
-                }
-
-            }
-
-
-        }
-        return new JsonResponse(
-            ['data' => 2]
-        );
-    }
-
-    #[Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
-    public function desabilitarEvento(Eventos $evento, Request $request): Response
     {
         $token = $this->session->get('chave');
 
@@ -186,13 +152,50 @@ class IndexController extends AbstractController
             );
         }
 
+        $entityManager = $this->getDoctrine()->getManager();
+
         try {
-          $evento->setHabilitado(0);
-          $entityManager->persist($evento);
-          $entityManager->flush();
-          return new JsonResponse(
-            ['data' => 1]
-           );
+            $evento->setHabilitado(1);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+            return new JsonResponse(
+                ['data' => 1]
+            );
+
+        } catch (\Exception) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[
+        Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
+    public function desabilitarEvento(Eventos $evento, Request $request): Response
+    {
+
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setHabilitado(0);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+            return new JsonResponse(
+                ['data' => 1]
+            );
         } catch (\Exception) {
             return new JsonResponse(
                 ['data' => 2]

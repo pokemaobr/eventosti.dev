@@ -6,10 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Eventos;
 use App\Repository\EventosRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\EmailService;
 
 class IndexController extends AbstractController
 {
@@ -38,7 +40,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/cadastro', name: 'cadastro', methods: ['POST'])]
-    public function cadastro(Request $request): Response
+    public function cadastro(Request $request, MailerInterface $mailer): Response
     {
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -67,6 +69,9 @@ class IndexController extends AbstractController
 
             $entityManager->persist($eventos);
             $entityManager->flush();
+
+            $email = new EmailService('pokemaobr', 'contato@pokemaobr.dev');
+            $email->avisarCadastro($request->request->get('nome'), $mailer);
 
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
 

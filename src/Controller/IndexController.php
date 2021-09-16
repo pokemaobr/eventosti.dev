@@ -178,32 +178,25 @@ class IndexController extends AbstractController
     #[Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
     public function desabilitarEvento(Eventos $evento, Request $request): Response
     {
-
         $token = $this->session->get('chave');
 
-        if ($this->isCsrfTokenValid('habilitar', $token)) {
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            //$evento = $entityManager->getRepository('App\\Entity\\Eventos')->findOneBy(['id' => $id]);
-
-            if (!empty($evento)) {
-
-                try {
-                    $evento->setHabilitado(0);
-                    $entityManager->persist($evento);
-                    $entityManager->flush();
-                    return new JsonResponse(
-                        ['data' => 1]
-                    );
-
-                } catch (\Exception) {
-                    return new JsonResponse(
-                        ['data' => 2]
-                    );
-                }
-
-            }
-
+        try {
+          $evento->setHabilitado(0);
+          $entityManager->persist($evento);
+          $entityManager->flush();
+          return new JsonResponse(
+            ['data' => 1]
+           );
+        } catch (\Exception) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
         }
 
         return new JsonResponse(

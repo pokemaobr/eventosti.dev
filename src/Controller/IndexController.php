@@ -137,10 +137,7 @@ class IndexController extends AbstractController
                 ->getRepository(Eventos::class)
                 ->pegarEventosFuturos($hoje);
 
-            $telegram = new TelegramService();
-            $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
-
-            return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+           return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
 
         }
 
@@ -166,6 +163,10 @@ class IndexController extends AbstractController
             $evento->setHabilitado(1);
             $entityManager->persist($evento);
             $entityManager->flush();
+
+            $telegram = new TelegramService();
+            $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
+
             return new JsonResponse(
                 ['data' => 1]
             );

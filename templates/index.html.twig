@@ -113,23 +113,28 @@
                 <li><i class="fas fa-check-circle me-2"></i>Ajude a comunidade a conhecer novos eventos</li>
             </ul>
         </div><!--//benefits-list-->
-        {% if (date(eventos[0].dataFim) >= date()) and (eventos|length >= 2 and (date(eventos[1].dataFim) >= date())) %}
-            <div class="event-countdown text-center mb-3">
-                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Estão acontecendo eventos agora!</a></h4>
-            </div>
-        {% elseif date(eventos[0].dataFim) >= date() %}
-            <div class="event-countdown text-center mb-3">
-                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Está acontecendo um evento agora!</a></h4>
-            </div>
-        {% elseif eventos is empty %}
-            <div class="event-countdown text-center mb-3">
-                <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Não existem eventos próximos cadastrados no momento!</a></h4>
-            </div>
-        {% else %}
-            <div class="event-countdown text-center mb-3">
-                <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
-                <div id="countdown-box" class="countdown-box"></div>
-            </div><!--//event-countdown-->
+        {% if eventos is not empty %}
+            {% if (date(eventos[0].dataFim) >= date()) and (eventos|length >= 2 and (date(eventos[1].dataFim) >= date())) %}
+                <div class="event-countdown text-center mb-3">
+                    <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Estão
+                            acontecendo eventos agora!</a></h4>
+                </div>
+            {% elseif date(eventos[0].dataFim) >= date() %}
+                <div class="event-countdown text-center mb-3">
+                    <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Está
+                            acontecendo um evento agora!</a></h4>
+                </div>
+            {% elseif eventos is empty %}
+                <div class="event-countdown text-center mb-3">
+                    <h4 class="countdown-intro mb-2 text-center mb-3 text-danger"><a href="#proximos-eventos-section">Não
+                            existem eventos próximos cadastrados no momento!</a></h4>
+                </div>
+            {% else %}
+                <div class="event-countdown text-center mb-3">
+                    <h4 class="countdown-intro mb-2 text-center mb-3">Próximo evento em:</h4>
+                    <div id="countdown-box" class="countdown-box"></div>
+                </div><!--//event-countdown-->
+            {% endif %}
         {% endif %}
     </div><!--//container-->
 </section>
@@ -328,9 +333,11 @@
 <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/plugins/smoothscroll.min.js"></script>
 <script src="assets/plugins/gumshoe/gumshoe.polyfills.min.js"></script>
+{% if eventos is not empty %}
 <script>
     var target_date = new Date("{{ eventos[0].dataInicio|date("M d, Y") }}").getTime();
 </script>
+{% endif %}
 <script src="assets/js/main.js"></script>
 
 

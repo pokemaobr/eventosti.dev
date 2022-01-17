@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Eventos;
@@ -13,12 +13,14 @@ use App\Repository\EventosRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\EmailService;
 use App\Service\TelegramService;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class IndexController extends AbstractController
 {
 
-    public function __construct(public SessionInterface $session)
+    public function __construct(public RequestStack $requestStack, public EntityManagerInterface $doctrine)
     {
+        $this->session = $this->requestStack->getSession();
     }
 
     #[Route('/', name: 'index')]

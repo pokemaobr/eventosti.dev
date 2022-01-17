@@ -33,6 +33,7 @@ class IndexController extends AbstractController
             ->pegarEventosFuturosHabilitados($hoje);
 
         return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online', 1 => 'Presencial', 2 => 'Híbrido']]);
+
     }
 
     #[Route('/cadastrar', name: 'cadastrar')]
@@ -75,6 +76,7 @@ class IndexController extends AbstractController
             $email->avisarCadastro($request->request->get('nome'), $mailer);
 
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
+
         } catch (Exception) {
             return $this->redirectToRoute('cadastrar', ['status' => 2]);
         }
@@ -102,6 +104,7 @@ class IndexController extends AbstractController
             $root = $this->getParameter('kernel.project_dir');
 
             file_put_contents($root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'events' . DIRECTORY_SEPARATOR . $imageName, $data);
+
         }
 
         return $this->render('upload.html.twig', ['imageName' => $imageName]);
@@ -111,6 +114,7 @@ class IndexController extends AbstractController
     public function logar(): Response
     {
         return $this->render('logar.html.twig');
+
     }
 
     #[Route('/habilitar', name: 'habilitar', methods: ['POST'])]
@@ -135,10 +139,13 @@ class IndexController extends AbstractController
                 ->getRepository(Eventos::class)
                 ->pegarEventosFuturos($hoje);
 
-            return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+           return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+
         }
 
         return $this->render('logar.html.twig', ['validate' => false]);
+
+
     }
 
     #[Route('/habilitar-evento/{id}', name: 'habilitar-evento', methods: ['GET'])]
@@ -165,6 +172,7 @@ class IndexController extends AbstractController
             return new JsonResponse(
                 ['data' => 1]
             );
+
         } catch (\Exception) {
             return new JsonResponse(
                 ['data' => 2]
@@ -178,8 +186,7 @@ class IndexController extends AbstractController
     }
 
     #[
-        Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])
-    ]
+        Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
     public function desabilitarEvento(Eventos $evento, Request $request): Response
     {
 
@@ -211,3 +218,4 @@ class IndexController extends AbstractController
         );
     }
 }
+

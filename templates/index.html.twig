@@ -174,48 +174,50 @@
         </div>
         <div class="row">
             {% for evento in eventos %}
-            <div class="col-6 col-lg-3 mb-4">
-                <div class="card rounded-0">
-                    <a href="{{ evento.link }}" target="_blank"><img
-                                src="assets/images/events/{{ evento.imagem }}" class="card-img-top rounded-0"
-                                alt=""></a>
-                    <div class="card-body">
-                        <h5 class="card-title mb-2"><a href="{{ evento.link }}"
-                                                       target="_blank">{{ evento.nome }}</a></h5>
-                        <div class="card-text mb-3">
-                            <div class="meta">De: {{ evento.dataInicio|date("d/m/Y") }}
-                                às {{ evento.dataInicio|date("H:i:s") }} </div>
-                            <div class="meta">Até: {{ evento.dataFim|date("d/m/Y") }}
-                                às {{ evento.dataFim|date("H:i:s") }} </div>
-                            <div class="meta">{{ tipo[evento.tipo] }}</div>
-                            <div class="meta">{{ evento.local }}</div>
-                        </div><!--//card-text-->
-                        <a href="#modal-eventos-{{ loop.index }}" data-bs-toggle="modal"
-                           data-bs-target="#modal-eventos-{{ loop.index }}">Saiba Mais
-                            &rarr;</a>
+                <div class="col-6 col-lg-3 mb-4">
+                    <div class="card rounded-0">
+                        <a href="{{ evento.link }}" target="_blank"><img
+                                    src="assets/images/events/{{ evento.imagem }}" class="card-img-top rounded-0"
+                                    alt=""></a>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2"><a href="{{ evento.link }}"
+                                                           target="_blank">{{ evento.nome }}</a></h5>
+                            <div class="card-text mb-3">
+                                <div class="meta">De: {{ evento.dataInicio|date("d/m/Y") }}
+                                    às {{ evento.dataInicio|date("H:i:s") }} </div>
+                                <div class="meta">Até: {{ evento.dataFim|date("d/m/Y") }}
+                                    às {{ evento.dataFim|date("H:i:s") }} </div>
+                                <div class="meta">{{ tipo[evento.tipo] }}</div>
+                                <div class="meta">{{ evento.local }}</div>
+                            </div><!--//card-text-->
+                            <a href="#modal-eventos-{{ loop.index }}" data-bs-toggle="modal"
+                               data-bs-target="#modal-eventos-{{ loop.index }}">Saiba Mais
+                                &rarr;</a>
+                        </div><!--//card-->
+                        <div class="card-footer text-muted">
+                            <ul class="social-list list-inline mb-0">
+                                {% if evento.twitter is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
+                                                    class="fab fa-twitter fa-fw"></i></a></li>
+                                {% endif %}
+                                {% if evento.instagram is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.instagram }}"><i
+                                                    class="fab fa-instagram fa-fw"></i></a></li>
+                                {% endif %}
+                                {% if evento.outro is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.outro }}"><i
+                                                    class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                {% endif %}
+                            </ul><!--//social-list-->
+                        </div>
                     </div><!--//card-->
-                    <div class="card-footer text-muted">
-                        <ul class="social-list list-inline mb-0">
-                            {% if evento.twitter is not empty %}
-                                <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
-                                                class="fab fa-twitter fa-fw"></i></a></li>
-                            {% endif %}
-                            {% if evento.instagram is not empty %}
-                                <li class="list-inline-item"><a href="{{ evento.instagram }}"><i
-                                                class="fab fa-instagram fa-fw"></i></a></li>
-                            {% endif %}
-                            {% if evento.outro is not empty %}
-                                <li class="list-inline-item"><a href="{{ evento.outro }}"><i
-                                                class="fab fa-internet-explorer fa-fw"></i></a></li>
-                            {% endif %}
-                        </ul><!--//social-list-->
-                    </div>
-                </div><!--//card-->
-
-            </div><!--//col-->
+                </div><!--//col-->
             {% endfor %}
-        </div>
-    </div><!--//container-->
+
+        </div><!--//container-->
+
+    </div>
+
 </section><!--//speakers-section-->
 
 <div class="container">
@@ -230,12 +232,10 @@
             "Parceria eventosti.dev"
         </div>
         <div class="row logos justify-content-center">
-            <div class="logo-item col-6 col-md-4 col-lg-2">
             <a href="https://pokemaobr.dev">
-                               <img src="https://pokemaobr.dev/img/pokemaobr.png"
-                                                                    alt="" />
+                <div class="logo-item col-6 col-md-4 col-lg-2"><img src="https://pokemaobr.dev/img/pokemaobr.png"
+                                                                    alt="">
             </a></div>
-        </div>
     </div><!--//row-->
     </div><!--//container-->
 </section><!--//sponsors-section-->
@@ -333,14 +333,13 @@
 <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/plugins/smoothscroll.min.js"></script>
 <script src="assets/plugins/gumshoe/gumshoe.polyfills.min.js"></script>
-
 {% if eventos is not empty %}
-    <script>
-        var target_date = new Date("{{ eventos[0].dataInicio|date("M d, Y") }}").getTime();
-    </script>
+<script>
+    var target_date = new Date("{{ eventos[0].dataInicio|date("M d, Y") }}").getTime();
+</script>
 {% endif %}
-
 <script src="assets/js/main.js"></script>
+
 
 </body>
 </html>

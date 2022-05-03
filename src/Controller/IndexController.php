@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\TwitterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -168,6 +169,9 @@ class IndexController extends AbstractController
 
             $telegram = new TelegramService();
             $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
+
+            $twitter = new TwitterService();
+            $twitter->enviaMensagemCadastroEvento($evento);
 
             return new JsonResponse(
                 ['data' => 1]

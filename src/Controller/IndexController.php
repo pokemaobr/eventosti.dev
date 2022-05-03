@@ -177,9 +177,9 @@ class IndexController extends AbstractController
                 ['data' => 1]
             );
 
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             return new JsonResponse(
-                ['data' => 2]
+                ['data' => 2,'error' => $e->getMessage()]
             );
         }
 

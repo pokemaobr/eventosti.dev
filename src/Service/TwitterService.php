@@ -17,8 +17,12 @@ class TwitterService {
 
         $mensagem = 'Mais um evento cadastrado na plataforma https://eventosti.dev confira agora! ' .$evento->getNome() . ' em: ' . $evento->getLink();
 
+        try {
         $this->twitter->send($mensagem);
+        }
+        catch (Exception $e) {
 
+        }
     }
 
 }

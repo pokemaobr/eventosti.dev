@@ -169,8 +169,8 @@ class IndexController extends AbstractController
             $telegram = new TelegramService();
             $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
 
-            $twitter = new TwitterService();
-            $twitter->enviaMensagemCadastroEvento($evento);
+            //$twitter = new TwitterService();
+            //$twitter->enviaMensagemCadastroEvento($evento);
 
             return new JsonResponse(
                 ['data' => 1]

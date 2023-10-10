@@ -144,8 +144,7 @@ class IndexController extends AbstractController
 
         }
 
-        return $this->render('logar.html.twig', ['validate' => false]);.
-        
+        return $this->render('logar.html.twig', ['validate' => false]);
 
     }
 

@@ -144,8 +144,8 @@ class IndexController extends AbstractController
 
         }
 
-        return $this->render('logar.html.twig', ['validate' => false]);
-
+        return $this->render('logar.html.twig', ['validate' => false]);.
+        
 
     }
 
@@ -182,7 +182,6 @@ class IndexController extends AbstractController
                 ['data' => 2,'error' => $e->getMessage()]
             );
         }
-
 
         return new JsonResponse(
             ['data' => 2]

@@ -183,6 +183,7 @@
                             <h5 class="card-title mb-2"><a href="{{ evento.link }}"
                                                            target="_blank">{{ evento.nome }}</a></h5>
                             <div class="card-text mb-3">
+                                <span class="badge bg-secondary">{{ tipo[evento.tipo] }}</span>
                                 {% if evento.gratuito is not empty %}
                                     <span class="badge bg-success">Gratuíto</span>
                                 {% endif %}
@@ -193,7 +194,6 @@
                                     às {{ evento.dataInicio|date("H:i:s") }} </div>
                                 <div class="meta">Até: {{ evento.dataFim|date("d/m/Y") }}
                                     às {{ evento.dataFim|date("H:i:s") }} </div>
-                                <div class="meta">{{ tipo[evento.tipo] }}</div>
                                 <div class="meta">{{ evento.local }}</div>
                             </div><!--//card-text-->
                             <a href="#modal-eventos-{{ loop.index }}" data-bs-toggle="modal"
@@ -305,13 +305,13 @@
                             <div class="col text-center text-md-start mx-auto">
                                 <h2 class="name mb-2"><a href="{{ evento.link }}" target="_blank">{{ evento.nome }}</a>
                                 </h2>
+                                <span class="badge bg-secondary">{{ tipo[evento.tipo] }}</span>
                                 {% if evento.gratuito is not empty %}
                                     <span class="badge bg-success">Gratuíto</span>
                                 {% endif %}
                                 {% if evento.pago is not empty %}
                                     <span class="badge bg-primary">Pago</span>
                                 {% endif %}
-                                <div class="meta">{{ tipo[evento.tipo] }}</div>
                                 <div class="meta">Início: {{ evento.dataInicio|date("d/m/Y") }}
                                     às {{ evento.dataInicio|date("H:i:s") }}</div>
                                 <div class="meta">Fim: {{ evento.dataFim|date("d/m/Y") }}

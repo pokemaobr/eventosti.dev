@@ -154,7 +154,7 @@
                             </td>
                         {% else %}
                             <td>
-                                <button id="pagoId{{ evento.id }}" onclick="transformarEmEventoNaoPago('{{ evento.id }}','{{ path('transformar-em-evento-pago-nao-pago',{'id':evento.id}) }}')"
+                                <button id="pagoId{{ evento.id }}" onclick="transformarEmEventoNaoPago('{{ evento.id }}','{{ path('transformar-em-evento-nao-pago',{'id':evento.id}) }}')"
                                         class="btn btn-block btn-primary btn-primary d-flex flex-column text-white h-100">
                                     <i class="fas fa-eye-slash"></i></button>
                             </td>

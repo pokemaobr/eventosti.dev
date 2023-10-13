@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\EventosRepository as EventoRepository;
 
 /**
  * Eventos
  *
  * @ORM\Table(name="eventos")
+ * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\EventosRepository")
  */
 class Eventos
@@ -98,6 +98,27 @@ class Eventos
      * @ORM\Column(name="outro", type="string", length=200, nullable=true)
      */
     private $outro;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="ingresso", type="string", length=255, nullable=true)
+     */
+    private $ingresso;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="gratuito", type="boolean", nullable=true)
+     */
+    private $gratuito;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="pago", type="boolean", nullable=true)
+     */
+    private $pago;
 
     /**
      * @var bool
@@ -239,6 +260,42 @@ class Eventos
     public function setOutro(?string $outro): self
     {
         $this->outro = $outro;
+
+        return $this;
+    }
+
+    public function getIngresso(): ?string
+    {
+        return $this->ingresso;
+    }
+
+    public function setIngresso(?string $ingresso): self
+    {
+        $this->ingresso = $ingresso;
+
+        return $this;
+    }
+
+    public function getGratuito(): ?bool
+    {
+        return $this->gratuito;
+    }
+
+    public function setGratuito(?bool $gratuito): self
+    {
+        $this->gratuito = $gratuito;
+
+        return $this;
+    }
+
+    public function getPago(): ?bool
+    {
+        return $this->pago;
+    }
+
+    public function setPago(?bool $pago): self
+    {
+        $this->pago = $pago;
 
         return $this;
     }

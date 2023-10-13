@@ -99,11 +99,17 @@
                     </th>
                     <th class="th-sm">Link
                     </th>
+                    <th class="th-sm">Link Ingresso
+                    </th>
                     <th class="th-sm">Twitter
                     </th>
                     <th class="th-sm">Instagram
                     </th>
                     <th class="th-sm">Outro
+                    </th>
+                    <th class="th-sm">Gratuito
+                    </th>
+                    <th class="th-sm">Pago
                     </th>
                     <th class="th-sm">Habilitado
                     </th>
@@ -123,9 +129,36 @@
                         <td>{{ evento.dataInicio|date("d/m/Y H:i:s") }}</td>
                         <td>{{ evento.dataFim|date("d/m/Y H:i:s") }}</td>
                         <td>{{ evento.link }}</td>
+                        <td>{{ evento.ingresso }}</td>
                         <td>{{ evento.twitter }}</td>
                         <td>{{ evento.instagram }}</td>
                         <td>{{ evento.outro }}</td>
+                        {% if evento.gratuito == 0 %}
+                            <td>
+                                <button id="gratuitoId{{ evento.id }}" onclick="transformarEmEventoGratuito('{{ evento.id }}','{{ path('transformar-em-evento-gratuito',{'id':evento.id}) }}')"
+                                        class="btn btn-block btn-primary btn-primary d-flex flex-column text-white h-100">
+                                    <i class="fab fa-vuejs"></i></button>
+                            </td>
+                        {% else %}
+                            <td>
+                                <button id="gratuitoId{{ evento.id }}" onclick="transformarEmEventoNaoGratuito('{{ evento.id }}','{{ path('transformar-em-evento-nao-gratuito',{'id':evento.id}) }}')"
+                                        class="btn btn-block btn-primary btn-primary d-flex flex-column text-white h-100">
+                                    <i class="fas fa-eye-slash"></i></button>
+                            </td>
+                        {% endif %}
+                        {% if evento.pago == 0 %}
+                            <td>
+                                <button id="pagoId{{ evento.id }}" onclick="transformarEmEventoPago('{{ evento.id }}','{{ path('transformar-em-evento-pago',{'id':evento.id}) }}')"
+                                        class="btn btn-block btn-primary btn-primary d-flex flex-column text-white h-100">
+                                    <i class="fab fa-vuejs"></i></button>
+                            </td>
+                        {% else %}
+                            <td>
+                                <button id="pagoId{{ evento.id }}" onclick="transformarEmEventoNaoPago('{{ evento.id }}','{{ path('transformar-em-evento-pago-nao-pago',{'id':evento.id}) }}')"
+                                        class="btn btn-block btn-primary btn-primary d-flex flex-column text-white h-100">
+                                    <i class="fas fa-eye-slash"></i></button>
+                            </td>
+                        {% endif %}
                         {% if evento.habilitado == 0 %}
                             <td>
                                 <button id="botaoId{{ evento.id }}" onclick="habilitarEvento('{{ evento.id }}','{{ path('habilitar-evento',{'id':evento.id}) }}')"
@@ -160,11 +193,17 @@
                     </th>
                     <th>Link
                     </th>
+                    <th>Link Ingresso
+                    </th>
                     <th>Twitter
                     </th>
                     <th>Instagram
                     </th>
                     <th>Outro
+                    </th>
+                    <th>Pago
+                    </th>
+                    <th>Gratuito
                     </th>
                     <th>Habilitado
                     </th>
@@ -270,6 +309,66 @@
                     botaoId.innerHTML = '<i class="fab fa-vuejs"></i>';
                     const linkNovo = '{{ app.request.schemeAndHttpHost }}/habilitar-evento/' + id;
                     botaoId.onclick = () => habilitarEvento(id, linkNovo);
+                }
+            });
+    }
+
+    function transformarEmEventoPago(id, link) {
+        fetch(link).then(res => res.json()).then(
+            json => {
+                if (json.data === 1) {
+                    const botaoId = document.getElementById('pagoId'+id);
+                    console.log(botaoId);
+                    botaoId.removeChild(botaoId.querySelector('svg'));
+                    botaoId.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                    const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-pago/' + id;
+                    botaoId.onclick = () => transformarEmEventoNaoPago(id, linkNovo);
+                }
+            });
+
+
+    }
+
+    function transformarEmEventoNaoPago(id, link) {
+        fetch(link).then(res => res.json()).then(
+            json => {
+                if (json.data === 1) {
+                    const botaoId = document.getElementById('pagoId'+id);
+                    console.log(botaoId);
+                    botaoId.removeChild(botaoId.querySelector('svg'));
+                    botaoId.innerHTML = '<i class="fab fa-vuejs"></i>';
+                    const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-nao-pago/' + id;
+                    botaoId.onclick = () => transformarEmEventoPago(id, linkNovo);
+                }
+            });
+    }
+
+    function transformarEmEventoGratuito(id, link) {
+        fetch(link).then(res => res.json()).then(
+            json => {
+                if (json.data === 1) {
+                    const botaoId = document.getElementById('gratuitoId'+id);
+                    console.log(botaoId);
+                    botaoId.removeChild(botaoId.querySelector('svg'));
+                    botaoId.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                    const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-gratuito/' + id;
+                    botaoId.onclick = () => transformarEmEventoNaoGratuito(id, linkNovo);
+                }
+            });
+
+
+    }
+
+    function transformarEmEventoNaoGratuito(id, link) {
+        fetch(link).then(res => res.json()).then(
+            json => {
+                if (json.data === 1) {
+                    const botaoId = document.getElementById('gratuitoId'+id);
+                    console.log(botaoId);
+                    botaoId.removeChild(botaoId.querySelector('svg'));
+                    botaoId.innerHTML = '<i class="fab fa-vuejs"></i>';
+                    const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-nao-gratuito/' + id;
+                    botaoId.onclick = () => transformarEmEventoGratuito(id, linkNovo);
                 }
             });
     }

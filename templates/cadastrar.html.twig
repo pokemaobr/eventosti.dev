@@ -98,7 +98,15 @@
                        placeholder="Local ou Plataforma onde será realizado o evento" required
                 >
             </div>
-
+            <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
+                <label style="font-size: 20px;" for=forma">Forma de Inscrição: </label> <br/>
+                <input type="checkbox" name="gratuito" class="form-check-input" id="gratuito"
+                       placeholder="Evento Gratuito"
+                >&nbsp;<label for="gratuito" class="form-check-label"> Evento Gratuito</label>&nbsp;
+                <input type="checkbox" name="pago" class="form-check-input" id="pago"
+                       placeholder="Evento Pago"
+                >&nbsp;<label for="pago" class="form-check-label"> Evento Pago</label>
+            </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="imagem">Imagem do Evento: (300px x 300px)* </label>
                 <input type="file" name="upload_image" id="upload_image" required />
@@ -127,6 +135,12 @@
                 <label style="font-size: 20px;" for="link">Link:* </label>
                 <input type="text" name="link" class="form-control form-control-lg" id="link"
                        placeholder="Link do evento" required
+                >
+            </div>
+            <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
+                <label style="font-size: 20px;" for="ingresso">Link para Ingressos (se houver): </label>
+                <input type="text" name="ingresso" class="form-control form-control-lg" id="ingresso"
+                       placeholder="Link para ingressos"
                 >
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">

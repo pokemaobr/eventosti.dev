@@ -183,6 +183,12 @@
                             <h5 class="card-title mb-2"><a href="{{ evento.link }}"
                                                            target="_blank">{{ evento.nome }}</a></h5>
                             <div class="card-text mb-3">
+                                {% if evento.gratuito is not empty %}
+                                    <span class="badge bg-success">Gratuíto</span>
+                                {% endif %}
+                                {% if evento.pago is not empty %}
+                                    <span class="badge bg-primary">Pago</span>
+                                {% endif %}
                                 <div class="meta">De: {{ evento.dataInicio|date("d/m/Y") }}
                                     às {{ evento.dataInicio|date("H:i:s") }} </div>
                                 <div class="meta">Até: {{ evento.dataFim|date("d/m/Y") }}
@@ -196,16 +202,20 @@
                         </div><!--//card-->
                         <div class="card-footer text-muted">
                             <ul class="social-list list-inline mb-0">
+                                {% if evento.ingresso is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.ingresso }}" target="_blank"><i
+                                                    class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                {% endif %}
                                 {% if evento.twitter is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
                                                     class="fab fa-twitter fa-fw"></i></a></li>
                                 {% endif %}
                                 {% if evento.instagram is not empty %}
-                                    <li class="list-inline-item"><a href="{{ evento.instagram }} target="_blank""><i
+                                    <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
                                                     class="fab fa-instagram fa-fw"></i></a></li>
                                 {% endif %}
                                 {% if evento.outro is not empty %}
-                                    <li class="list-inline-item"><a href="{{ evento.outro }} target="_blank""><i
+                                    <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
                                                     class="fab fa-internet-explorer fa-fw"></i></a></li>
                                 {% endif %}
                             </ul><!--//social-list-->
@@ -295,6 +305,12 @@
                             <div class="col text-center text-md-start mx-auto">
                                 <h2 class="name mb-2"><a href="{{ evento.link }}" target="_blank">{{ evento.nome }}</a>
                                 </h2>
+                                {% if evento.gratuito is not empty %}
+                                    <span class="badge bg-success">Gratuíto</span>
+                                {% endif %}
+                                {% if evento.pago is not empty %}
+                                    <span class="badge bg-primary">Pago</span>
+                                {% endif %}
                                 <div class="meta">{{ tipo[evento.tipo] }}</div>
                                 <div class="meta">Início: {{ evento.dataInicio|date("d/m/Y") }}
                                     às {{ evento.dataInicio|date("H:i:s") }}</div>
@@ -302,6 +318,10 @@
                                     às {{ evento.dataFim|date("H:i:s") }} </div>
                                 <div class="meta">{{ evento.local }}</div>
                                 <ul class="social-list list-inline mb-0">
+                                    {% if evento.ingresso is not empty %}
+                                        <li class="list-inline-item"><a href="{{ evento.ingresso }}" target="_blank"><i
+                                                        class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                    {% endif %}
                                     {% if evento.twitter is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
                                                         class="fab fa-twitter fa-fw"></i></a></li>

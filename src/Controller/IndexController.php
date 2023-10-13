@@ -68,6 +68,15 @@ class IndexController extends AbstractController
             if (!empty($request->request->get('outro'))) {
                 $evento->setOutro($request->request->get('outro'));
             }
+            if (!empty($request->request->get('ingresso'))) {
+                $evento->setIngresso($request->request->get('ingresso'));
+            }
+            if (!empty($request->request->get('pago'))) {
+                $evento->setPago(1);
+            }
+            if (!empty($request->request->get('gratuito'))) {
+                $evento->setGratuito(1);
+            }
             $evento->setHabilitado(0);
 
             $entityManager->persist($evento);
@@ -219,5 +228,139 @@ class IndexController extends AbstractController
             ['data' => 2]
         );
     }
+
+    #[Route('/transformar-em-evento-gratuito/{id}', name: 'transformar-em-evento-gratuito', methods: ['GET'])]
+    public function transformarEmEventoGratuito(Eventos $evento, Request $request): Response
+    {
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setGratuito(1);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+
+            return new JsonResponse(
+                ['data' => 1]
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['data' => 2,'error' => $e->getMessage()]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[
+        Route('/transformar-em-evento-nao-gratuito/{id}', name: 'transformar-em-evento-nao-gratuito', methods: ['GET'])]
+    public function transformarEmEventoNaoGratuito(Eventos $evento, Request $request): Response
+    {
+
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setGratuito(0);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+            return new JsonResponse(
+                ['data' => 1]
+            );
+        } catch (\Exception) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[Route('/transformar-em-evento-pago/{id}', name: 'transformar-em-evento-pago', methods: ['GET'])]
+    public function transformarEmEventoPago(Eventos $evento, Request $request): Response
+    {
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setPago(1);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+
+            return new JsonResponse(
+                ['data' => 1]
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['data' => 2,'error' => $e->getMessage()]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[
+        Route('/transformar-em-evento-nao-pago/{id}', name: 'transformar-em-evento-nao-pago', methods: ['GET'])]
+    public function transformarEmEventoNaoPago(Eventos $evento, Request $request): Response
+    {
+
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setPago(0);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+            return new JsonResponse(
+                ['data' => 1]
+            );
+        } catch (\Exception) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+
 }
 

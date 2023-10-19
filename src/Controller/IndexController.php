@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Call4papers;
+use App\Repository\Call4papersRepository;
 use App\Service\TwitterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +35,11 @@ class IndexController extends AbstractController
             ->getRepository(Eventos::class)
             ->pegarEventosFuturosHabilitados($hoje);
 
-        return $this->render('index.html.twig', ['eventos' => $eventos, 'tipo' => [0 => 'Online', 1 => 'Presencial', 2 => 'Híbrido']]);
+        $call4papers = $this->getDoctrine()
+            ->getRepository(Call4papers::class)
+            ->pegarCall4PapersAbertosHabilitados($hoje);
+
+        return $this->render('index.html.twig', ['eventos' => $eventos, 'call4papers' => $call4papers, 'tipo' => [0 => 'Online', 1 => 'Presencial', 2 => 'Híbrido']]);
 
     }
 
@@ -95,6 +101,59 @@ class IndexController extends AbstractController
         return $this->render('cadastrar.html.twig', ['status' => 2]);
     }
 
+    #[Route('/cadastrar-call4papers', name: 'cadastrar-call4papers')]
+    public function cadastrarCall4papers(): Response
+    {
+        return $this->render('call4papers.html.twig');
+    }
+
+    #[Route('/cadastro-call4papers', name: 'cadastro-call4papers', methods: ['POST'])]
+    public function cadastroCall4Papers(Request $request, MailerInterface $mailer): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento = new Call4papers();
+            $evento->setNome($request->request->get('nome'));
+            $evento->setTipo($request->request->get('tipo'));
+            $evento->setLocal($request->request->get('local'));
+            $evento->setImagem($request->request->get('imagem'));
+            $evento->setDescricao($request->request->get('descricao'));
+            $evento->setDataInicio(new \DateTime($request->request->get('dataInicio')));
+            $evento->setDataFim(new \DateTime($request->request->get('dataFim')));
+            $evento->setDataEncerramento(new \DateTime($request->request->get('dataEncerramento')));
+            $evento->setLink($request->request->get('link'));
+            if (!empty($request->request->get('twitter'))) {
+                $evento->setTwitter($request->request->get('twitter'));
+            }
+            if (!empty($request->request->get('instagram'))) {
+                $evento->setInstagram($request->request->get('instagram'));
+            }
+            if (!empty($request->request->get('outro'))) {
+                $evento->setOutro($request->request->get('outro'));
+            }
+            if (!empty($request->request->get('evento'))) {
+                $evento->setEvento($request->request->get('evento'));
+            }
+            $evento->setHabilitado(0);
+
+            $entityManager->persist($evento);
+            $entityManager->flush();
+
+            $email = new EmailService($_ENV['USUARIO_EMAIL'], $_ENV['ENDERECO_EMAIL']);
+            $email->avisarCadastroCall4Papers($request->request->get('nome'), $mailer);
+
+            return $this->redirectToRoute('cadastrar-call4papers', ['status' => 1]);
+
+        } catch (Exception) {
+            return $this->redirectToRoute('cadastrar-call4papers', ['status' => 2]);
+        }
+
+
+        return $this->render('call4papers.html.twig', ['status' => 2]);
+    }
+
     #[Route('/upload', name: 'upload', methods: ['POST'])]
     public function upload(Request $request): Response
     {
@@ -149,7 +208,11 @@ class IndexController extends AbstractController
                 ->getRepository(Eventos::class)
                 ->pegarEventosFuturos($hoje);
 
-           return $this->render('habilitar.html.twig', ['eventos' => $eventos]);
+            $call4papers = $this->getDoctrine()
+                ->getRepository(Call4papers::class)
+                ->pegarCall4PapersAbertos($hoje);
+
+           return $this->render('habilitar.html.twig', ['eventos' => $eventos,'call4papers' => $call4papers]);
 
         }
 
@@ -199,6 +262,77 @@ class IndexController extends AbstractController
     #[
         Route('/desabilitar-evento/{id}', name: 'desabilitar-evento', methods: ['GET'])]
     public function desabilitarEvento(Eventos $evento, Request $request): Response
+    {
+
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setHabilitado(0);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+            return new JsonResponse(
+                ['data' => 1]
+            );
+        } catch (\Exception) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[Route('/habilitar-call4papers/{id}', name: 'habilitar-call4papers', methods: ['GET'])]
+    public function habilitarCall4Papers(Call4papers $evento, Request $request): Response
+    {
+        $token = $this->session->get('chave');
+
+        if (!$this->isCsrfTokenValid('habilitar', $token)) {
+            return new JsonResponse(
+                ['data' => 2]
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        try {
+            $evento->setHabilitado(1);
+            $entityManager->persist($evento);
+            $entityManager->flush();
+
+            $telegram = new TelegramService();
+            $telegram->enviaMensagemCadastroCall4Papers($_ENV['CHAT_ID'], $evento);
+
+            //$twitter = new TwitterService();
+            //$twitter->enviaMensagemCadastroEvento($evento);
+
+            return new JsonResponse(
+                ['data' => 1]
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['data' => 2,'error' => $e->getMessage()]
+            );
+        }
+
+        return new JsonResponse(
+            ['data' => 2]
+        );
+    }
+
+    #[Route('/desabilitar-call4papers/{id}', name: 'desabilitar-call4papers', methods: ['GET'])]
+    public function desabilitarCall4Papers(Call4papers $evento, Request $request): Response
     {
 
         $token = $this->session->get('chave');

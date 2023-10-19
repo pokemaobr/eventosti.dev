@@ -39,5 +39,23 @@ class EmailService
         }
     }
 
+    public function avisarCadastroCall4Papers(string $evento, MailerInterface $mailer)
+    {
+
+        try {
+
+            $this->mail
+                ->subject('Call4Papers cadastrado em eventosti.dev')
+                ->html('<p>Olá pokemão, acabaram de cadastrar o call4papers "'.$evento.'" no site!</p>' .
+                    '<br /><br /><p>Valeu, valida lá</p>')
+                ->text('Troque sua caixa de e-mail porque é uma bosta.');
+
+            $mailer->send($this->mail);
+        } catch
+        (Exception $e) {
+            echo "A mensagem não pode ser enviada. Erro do envio: {$this->mail->ErrorInfo}";
+        }
+    }
+
 
 }

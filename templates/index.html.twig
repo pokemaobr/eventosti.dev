@@ -138,7 +138,7 @@
         {% endif %}
     </div><!--//container-->
 </section>
-<section id="eventos-anteriores-section" class="section theme-bg-light">
+<section id="eventos-anteriores-section">
     <div class="media-block theme-bg-primary py-5">
         <div class="container">
             <h4 class="text-white text-center mb-3">Eventos anteriores</h4>
@@ -164,6 +164,65 @@
             </div><!--//row-->
         </div><!--//container-->
     </div><!--//media-block-->
+</section><!--//about-section-->
+
+<section id="call-for-papers-section" class="section theme-bg-light">
+    <div class="container">
+        <h3 class="section-heading text-center mb-3">Call 4 Papers Abertos</h3>
+        <div class="section-intro text-center single-col-max mx-auto mb-5">Lista com os call 4 papers cadastrados na
+            plataforma.
+        </div>
+        <div class="row">
+            {% for evento in call4papers %}
+                <div class="col-6 col-lg-3 mb-4">
+                    <div class="card rounded-0">
+                        <a href="{{ evento.link }}" target="_blank"><img
+                                    src="assets/images/events/{% if evento.imagem is not empty %}{{ evento.imagem }}{% else %}semimagem.png{% endif %}"
+                                    class="card-img-top rounded-0"
+                                    alt=""></a>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2"><a href="{{ evento.link }}"
+                                                           target="_blank">{{ evento.nome }}</a></h5>
+                            <div class="card-text mb-3">
+                                <span class="badge bg-secondary">{{ tipo[evento.tipo] }}</span>
+                                <div class="meta"><b>Fecha em: {{ evento.dataEncerramento|date("d/m/Y") }}
+                                        às {{ evento.dataEncerramento|date("H:i:s") }} </b></div>
+                                <div class="meta">Previsão Início: {{ evento.dataInicio|date("d/m/Y") }}
+                                    às {{ evento.dataInicio|date("H:i:s") }} </div>
+                                <div class="meta">Previsão Fim: {{ evento.dataFim|date("d/m/Y") }}
+                                    às {{ evento.dataFim|date("H:i:s") }} </div>
+                                <div class="meta">{{ evento.local }}</div>
+                            </div><!--//card-text-->
+                            <a href="#modal-call4papers-{{ loop.index }}" data-bs-toggle="modal"
+                               data-bs-target="#modal-call4papers-{{ loop.index }}">Saiba Mais
+                                &rarr;</a>
+                        </div><!--//card-->
+                        <div class="card-footer text-muted">
+                            <ul class="social-list list-inline mb-0">
+                                {% if evento.evento is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.evento }}" target="_blank"><i
+                                                    class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                {% endif %}
+                                {% if evento.twitter is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
+                                                    class="fab fa-twitter fa-fw"></i></a></li>
+                                {% endif %}
+                                {% if evento.instagram is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
+                                                    class="fab fa-instagram fa-fw"></i></a></li>
+                                {% endif %}
+                                {% if evento.outro is not empty %}
+                                    <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
+                                                    class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                {% endif %}
+                            </ul><!--//social-list-->
+                        </div>
+                    </div><!--//card-->
+                </div><!--//col-->
+            {% endfor %}
+            <a class="btn btn-primary" href="{{ path('cadastrar-call4papers') }}">Cadastrar Call 4 Papers!</a>
+        </div><!--//container-->
+    </div><!--//container-->
 </section><!--//about-section-->
 
 <section id="proximos-eventos-section" class="speakers-section section">
@@ -235,7 +294,7 @@
     <hr>
 </div>
 
-<section id="parceiros-section" class="parceiros-section section">
+<section id="parceiros-section" class="parceiros-section section theme-bg-light">
     <div class="container">
         <h3 class="section-heading text-center mb-3">Patrocinadores e Parceiros</h3>
         <div class="section-intro text-center single-col-max mx-auto mb-5">Quer ajudar o eventosti.dev a crescer?
@@ -321,6 +380,68 @@
                                 <ul class="social-list list-inline mb-0">
                                     {% if evento.ingresso is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.ingresso }}" target="_blank"><i
+                                                        class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                    {% endif %}
+                                    {% if evento.twitter is not empty %}
+                                        <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
+                                                        class="fab fa-twitter fa-fw"></i></a></li>
+                                    {% endif %}
+                                    {% if evento.instagram is not empty %}
+                                        <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
+                                                        class="fab fa-instagram fa-fw"></i></a></li>
+                                    {% endif %}
+                                    {% if evento.outro is not empty %}
+                                        <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
+                                                        class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                    {% endif %}
+                                </ul><!--//social-list-->
+                            </div><!--//col-->
+                        </div><!--//row-->
+                    </div>
+                    <div class="desc p-4 p-lg-5">
+                        <p>{{ evento.descricao }} </p>
+
+                    </div>
+                </div><!--//modal-body-->
+            </div><!--//modal-content-->
+        </div><!--//modal-dialog-->
+    </div><!--//modal-->
+{% endfor %}
+
+<!-- Modal Call4Papers -->
+{% for evento in call4papers %}
+    <div class="modal modal-speaker modal-speaker-1" id="modal-call4papers-{{ loop.index }}" tabindex="-1" role="dialog"
+         aria-labelledby="speaker-call4papers-{{ loop.index }}-ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 id="speaker--call4papers-{{ loop.index }}-ModalLabel" class="modal-title sr-only"
+                    >Nome do Evento</h4>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="theme-bg-light p-5">
+                        <div class="row">
+                            <div class="col-12 col-md-auto text-center">
+                                <a href="{{ evento.link }}" target="_blank"><img
+                                            class="profile-image mb-3 mb-md-0 me-md-4 rounded-circle mx-auto"
+                                            src="assets/images/events/{{ evento.imagem }}" alt=""/></a>
+                            </div>
+
+                            <div class="col text-center text-md-start mx-auto">
+                                <h2 class="name mb-2"><a href="{{ evento.link }}" target="_blank">{{ evento.nome }}</a>
+                                </h2>
+                                <span class="badge bg-secondary">{{ tipo[evento.tipo] }}</span>
+                                <div class="meta"><b>Fecha em: {{ evento.dataEncerramento|date("d/m/Y") }}
+                                        às {{ evento.dataEncerramento|date("H:i:s") }} </b></div>
+                                <div class="meta">Previsão Início do Evento: {{ evento.dataInicio|date("d/m/Y") }}
+                                    às {{ evento.dataInicio|date("H:i:s") }}</div>
+                                <div class="meta">Previsão Fim do Evento: {{ evento.dataFim|date("d/m/Y") }}
+                                    às {{ evento.dataFim|date("H:i:s") }} </div>
+                                <div class="meta">{{ evento.local }}</div>
+                                <ul class="social-list list-inline mb-0">
+                                    {% if evento.evento is not empty %}
+                                        <li class="list-inline-item"><a href="{{ evento.evento }}" target="_blank"><i
                                                         class="fas fa-ticket-alt fa-fw"></i></a></li>
                                     {% endif %}
                                     {% if evento.twitter is not empty %}

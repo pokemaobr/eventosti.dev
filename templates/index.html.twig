@@ -411,6 +411,14 @@
                                         <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
                                                         class="fab fa-internet-explorer fa-fw"></i></a></li>
                                     {% endif %}
+                                    <button class="button-popover" type="button" class="bg-transparent" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-modal-{{ loop.index }}">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <div id="popover-modal-{{ loop.index }}" class="d-none">
+                                        {% set url %}Queria te convidar para o evento: {{ evento.nome}} de: {{ evento.dataInicio|date("d/m/Y") }} às {{ evento.dataInicio|date("H:i") }} até: {{ evento.dataFim|date("d/m/Y") }} às {{ evento.dataFim|date("H:i") }} em: {{ evento.local }} - {{ evento.link }}{% endset %}
+                                        <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,frontend,backend" rel="nofollow" target="_blank" ><i
+                                                        class="fab fa-twitter fa-fw"></i></a></li>
+                                    </div>
                                 </ul><!--//social-list-->
                             </div><!--//col-->
                         </div><!--//row-->

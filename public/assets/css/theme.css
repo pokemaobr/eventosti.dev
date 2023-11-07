@@ -12525,3 +12525,10 @@ a.theme-link:hover {
     background: none;
     color: #098dcf;
 }
+
+.button-popover-index {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #f0f6fa;
+}

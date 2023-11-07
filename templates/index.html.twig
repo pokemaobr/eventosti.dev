@@ -12,10 +12,10 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="eventosti.dev">
-    <meta name="twitter:title" content="">
+    <meta name="twitter:title" content="eventosti.dev">
     <meta name="twitter:description" content="Seu portal de eventos de tecnologia">
     <meta name="twitter:creator" content="pokemaobr">
-    <meta name="twitter:image" content="">
+    <meta name="twitter:image" content="https://eventosti.dev/public/assets/images/eventosti.png">
     <meta name="twitter:domain" content="eventosti.dev">
 
     <link rel="shortcut icon" href="favicon.ico">
@@ -210,20 +210,28 @@
                             <ul class="social-list list-inline mb-0">
                                 {% if evento.evento is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.evento }}" target="_blank"><i
-                                                    class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                                    class="fas fa-ticket-alt fa-fw" title="Link para o evento referente a esse Call 4 Papers"></i></a></li>
                                 {% endif %}
                                 {% if evento.twitter is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
-                                                    class="fab fa-twitter fa-fw"></i></a></li>
+                                                    class="fab fa-twitter fa-fw" title="Conta do Twitter/X referente a esse Call 4 Papers"></i></a></li>
                                 {% endif %}
                                 {% if evento.instagram is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
-                                                    class="fab fa-instagram fa-fw"></i></a></li>
+                                                    class="fab fa-instagram fa-fw" title="Instagram referente a esse Call 4 Papers"></i></a></li>
                                 {% endif %}
                                 {% if evento.outro is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
-                                                    class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                                    class="fab fa-internet-explorer fa-fw" title="Outro link relevante para esse Call 4 Papers"></i></a></li>
                                 {% endif %}
+                                <button class="button-popover" type="button" class="bg-transparent" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-call4papers-{{ loop.index }}">
+                                    <i class="fas fa-share-alt" title="Compartilhar esse Call 4 Papers nas redes sociais"></i>
+                                </button>
+                                <div id="popover-call4papers-{{ loop.index }}" class="d-none">
+                                    {% set url %}O call 4 papers para o evento: {{ evento.nome}} está aberto até: {{ evento.dataEncerramento|date("d/m/Y") }} às {{ evento.dataEncerramento|date("H:i") }} em: {{ evento.link }}{% endset %}
+                                    <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,eventostidev" rel="nofollow" target="_blank" ><i
+                                                    class="fab fa-twitter fa-fw" title="Compartilhar esse Call 4 Papers no Twitter/X"></i></a></li>
+                                </div>
                             </ul><!--//social-list-->
                         </div>
                     </div><!--//card-->
@@ -273,27 +281,27 @@
                             <ul class="social-list list-inline mb-0">
                                 {% if evento.ingresso is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.ingresso }}" target="_blank"><i
-                                                    class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                                    class="fas fa-ticket-alt fa-fw" title="Site para adquirir o ingresso para o evento"></i></a></li>
                                 {% endif %}
                                 {% if evento.twitter is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
-                                                    class="fab fa-twitter fa-fw"></i></a></li>
+                                                    class="fab fa-twitter fa-fw" title="Twitter/X referente ao evento"></i></a></li>
                                 {% endif %}
                                 {% if evento.instagram is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
-                                                    class="fab fa-instagram fa-fw"></i></a></li>
+                                                    class="fab fa-instagram fa-fw" title="Instagram referente ao evento"></i></a></li>
                                 {% endif %}
                                 {% if evento.outro is not empty %}
                                     <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
-                                                    class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                                    class="fab fa-internet-explorer fa-fw" title="Outro link útil referente ao evento"></i></a></li>
                                 {% endif %}
                                 <button class="button-popover" type="button" class="bg-transparent" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-{{ loop.index }}">
-                                    <i class="fas fa-share-alt"></i>
+                                    <i class="fas fa-share-alt" title="Compartilhar esse evento nas redes sociais"></i>
                                 </button>
                                 <div id="popover-{{ loop.index }}" class="d-none">
                                     {% set url %}Queria te convidar para o evento: {{ evento.nome}} de: {{ evento.dataInicio|date("d/m/Y") }} às {{ evento.dataInicio|date("H:i") }} até: {{ evento.dataFim|date("d/m/Y") }} às {{ evento.dataFim|date("H:i") }} em: {{ evento.local }} - {{ evento.link }}{% endset %}
-                                    <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,frontend,backend" rel="nofollow" target="_blank" ><i
-                                                    class="fab fa-twitter fa-fw"></i></a></li>
+                                    <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,eventostidev" rel="nofollow" target="_blank" ><i
+                                                    class="fab fa-twitter fa-fw" title="Compartilhar esse evento no Twitter/X"></i></a></li>
                                 </div>
                             </ul><!--//social-list-->
                         </div>
@@ -314,9 +322,11 @@
 <section id="parceiros-section" class="parceiros-section section theme-bg-light">
     <div class="container">
         <h3 class="section-heading text-center mb-3">Patrocinadores e Parceiros</h3>
-        <div class="section-intro text-center single-col-max mx-auto mb-5">Quer ajudar o eventosti.dev a crescer?
+        <div class="section-intro text-center single-col-max mx-auto mb-0">Quer ajudar o eventosti.dev a crescer?
             Torne-se patrocinador ou parceiro do site. Basta enviar um e-mail para contato@pokemaobr.dev com o título
             "Parceria eventosti.dev"
+        </div>
+        <div class="section-intro text-center single-col-max mx-auto mb-3">Você pode também ajudar diretamente com qualquer quantia mensal pelo <a href="https://apoia.se/pokemaobr" target="_blank">Apoia.se do Pokemaobr</a>
         </div>
         <div class="row logos justify-content-center">
             <a href="https://pokemaobr.dev">
@@ -332,24 +342,24 @@
 
         <ul class="social-list list-inline mb-4">
             <li class="list-inline-item me-3"><a href="https://twitter.com/eventostidev"><i
-                            class="fab fa-twitter fa-fw"></i></a></li>
-            <li class="list-inline-item me-3"><a href="https://t.me/eventosti"><i class="fab fa-telegram fa-fw"></i></a>
+                            class="fab fa-twitter fa-fw" title="Twitter/X oficial do eventosti.dev"></i></a></li>
+            <li class="list-inline-item me-3"><a href="https://t.me/eventosti"><i class="fab fa-telegram fa-fw" title="Canal do telegram do eventosti.dev"></i></a>
             </li>
-            <li class="list-inline-item me-3"><a href="https://twitch.tv/pokemaobr"><i class="fab fa-twitch"></i></a>
+            <li class="list-inline-item me-3"><a href="https://twitch.tv/pokemaobr" title="Canal da Twitch do Pokemaobr"><i class="fab fa-twitch"></i></a>
             </li>
-            <li class="list-inline-item me-0"><a href="https://github.com/pokemaobr/eventosti.dev"><i
+            <li class="list-inline-item me-3"><a href="https://github.com/pokemaobr/eventosti.dev" title="Repositório do GitHub do eventosti.dev"><i
                             class="fab fa-github fa-fw"></i></a></li>
+            <button class="button-popover-index" type="button" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-index">
+                <i class="fas fa-share-alt" title="Compartilhar o eventosti.dev nas redes sociais"></i>
+            </button>
+            <div id="popover-index" class="d-none">
+                {% set url %}Você já conhece o site https://eventosti.dev ? Nele é possível ver as datas dos próximos eventos de desenvolvimento e também os Call 4 papers abertos. Vale a pena conferir!{% endset %}
+                <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,eventostidev" rel="nofollow" target="_blank" ><i
+                                class="fab fa-twitter fa-fw" title="Compartilhar o eventosti.dev no Twitter/X"></i></a></li>
+            </div>
 
         </ul><!--//social-list-->
 
-
-        <!-- <ul class="footer-links list-inline mx-auto mb-4">
-             <li class="list-inline-item"><a href="#">Code of Conduct</a></li>
-             <li class="list-inline-item">|</li>
-             <li class="list-inline-item"><a href="#">Terms</a></li>
-             <li class="list-inline-item">|</li>
-             <li class="list-inline-item me-0"><a href="#">Privacy</a></li>
-         </ul>//footer-link-->
 
         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
         <small class="copyright">Designed with <i class="fas fa-heart" style="color: #EC645E;"></i> by <a
@@ -397,27 +407,27 @@
                                 <ul class="social-list list-inline mb-0">
                                     {% if evento.ingresso is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.ingresso }}" target="_blank"><i
-                                                        class="fas fa-ticket-alt fa-fw"></i></a></li>
+                                                        class="fas fa-ticket-alt fa-fw" title="Link para adquiri o ingresso para o evento"></i></a></li>
                                     {% endif %}
                                     {% if evento.twitter is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.twitter }}" target="_blank"><i
-                                                        class="fab fa-twitter fa-fw"></i></a></li>
+                                                        class="fab fa-twitter fa-fw" title="Twitter/X referente ao evento"></i></a></li>
                                     {% endif %}
                                     {% if evento.instagram is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.instagram }}" target="_blank"><i
-                                                        class="fab fa-instagram fa-fw"></i></a></li>
+                                                        class="fab fa-instagram fa-fw" title="Instagram referente ao evento"></i></a></li>
                                     {% endif %}
                                     {% if evento.outro is not empty %}
                                         <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
-                                                        class="fab fa-internet-explorer fa-fw"></i></a></li>
+                                                        class="fab fa-internet-explorer fa-fw" title="Outro link útil referente ao evento"></i></a></li>
                                     {% endif %}
                                     <button class="button-popover" type="button" class="bg-transparent" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-modal-{{ loop.index }}">
-                                        <i class="fas fa-share-alt"></i>
+                                        <i class="fas fa-share-alt" title="Compartilhar esse evento nas redes sociais"></i>
                                     </button>
                                     <div id="popover-modal-{{ loop.index }}" class="d-none">
                                         {% set url %}Queria te convidar para o evento: {{ evento.nome}} de: {{ evento.dataInicio|date("d/m/Y") }} às {{ evento.dataInicio|date("H:i") }} até: {{ evento.dataFim|date("d/m/Y") }} às {{ evento.dataFim|date("H:i") }} em: {{ evento.local }} - {{ evento.link }}{% endset %}
-                                        <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,frontend,backend" rel="nofollow" target="_blank" ><i
-                                                        class="fab fa-twitter fa-fw"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,eventostidev" rel="nofollow" target="_blank" ><i
+                                                        class="fab fa-twitter fa-fw" title="Compartilhar esse evento no Twitter/X"></i></a></li>
                                     </div>
                                 </ul><!--//social-list-->
                             </div><!--//col-->
@@ -481,6 +491,14 @@
                                         <li class="list-inline-item"><a href="{{ evento.outro }}" target="_blank"><i
                                                         class="fab fa-internet-explorer fa-fw"></i></a></li>
                                     {% endif %}
+                                    <button class="button-popover" type="button" class="bg-transparent" data-bs-toggle="popover" data-bs-placement="top" data-bs-content-id="popover-modal-call4papers-{{ loop.index }}">
+                                        <i class="fas fa-share-alt" title="Compartilhar esse Call 4 Papers nas redes sociais"></i>
+                                    </button>
+                                    <div id="popover-modal-call4papers-{{ loop.index }}" class="d-none">
+                                        {% set url %}O call 4 papers para o evento: {{ evento.nome}} está aberto até: {{ evento.dataEncerramento|date("d/m/Y") }} às {{ evento.dataEncerramento|date("H:i") }} em: {{ evento.link }}{% endset %}
+                                        <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{ url|url_encode }}&via=eventostidev&hashtags=eventos,tecnologia,desenvolvimento,eventostidev" rel="nofollow" target="_blank" ><i
+                                                        class="fab fa-twitter fa-fw" title="Compartilhar esse Call 4 Papers no Twitter/X"></i></a></li>
+                                    </div>
                                 </ul><!--//social-list-->
                             </div><!--//col-->
                         </div><!--//row-->

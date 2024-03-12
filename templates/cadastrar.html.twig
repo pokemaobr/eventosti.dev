@@ -20,7 +20,9 @@
 
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="assets/css/theme.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css"
+          integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script
             src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -33,7 +35,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFY66MNQ41"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-CFY66MNQ41');
@@ -47,8 +53,8 @@
         <div class="container-fluid">
             <nav class="main-nav navbar navbar-expand-lg">
                 <div class="site-logo"><a href="{{ path('index') }}"><img class="logo-icon"
-                                                                                   src="assets/images/eventosti2.png"
-                                                                                   alt="logo"></a></div>
+                                                                          src="assets/images/eventosti2.png"
+                                                                          alt="logo"></a></div>
 
                 <div class="navbar-btn order-lg-2"><a class="btn btn-secondary"
                                                       href="{{ path('index') }}"
@@ -60,7 +66,7 @@
                 </button>
 
                 <div id="navigation" class="navbar-collapse collapse  justify-content-lg-end me-lg-3">
-                      </div><!--//navabr-collapse-->
+                </div><!--//navabr-collapse-->
 
             </nav><!--//main-nav-->
 
@@ -72,7 +78,8 @@
     <div class="container">
         <form action="{{ path('cadastro') }}" id="form-validation" method="POST">
             {% if (app.request.query.get("status") is defined and app.request.query.get("status") == 1) %}
-                <p class="alert alert-success"> EVENTO cadastrado com SUCESSO! Aguarde a administração aprovar para aparecer no site! </p>
+                <p class="alert alert-success"> EVENTO cadastrado com SUCESSO! Aguarde a administração aprovar para
+                    aparecer no site! </p>
             {% elseif (app.request.query.get("status") is defined and app.request.query.get("status") == 2) %}
                 <p class="alert alert-danger"> Erro ao cadastrar EVENTO! </p>
             {% endif %}
@@ -109,10 +116,10 @@
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="imagem">Imagem do Evento: (300px x 300px)* </label>
-                <input type="file" name="upload_image" id="upload_image" required />
-                <br />
+                <input type="file" name="upload_image" id="upload_image" required/>
+                <br/>
                 <div id="uploaded_image"></div>
-                <input type="hidden" name="imagem" id="imagem" value="" required >
+                <input type="hidden" name="imagem" id="imagem" value="" required>
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="descrição">Descrição do Evento:* </label>
@@ -123,13 +130,17 @@
                 <label style="font-size: 20px;" for="datainicio">Data de Início do Evento:* </label>
                 <input type="datetime-local" name="dataInicio" class="form-control form-control-lg"
                        id="datainicio"
+                       oninput="modificaDataFim()"
+                       onchange="modificaDataFim()"
                        placeholder="Data de Início do Evento" required>
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="datafim">Data de Término do Evento:* </label>
                 <input type="datetime-local" name="dataFim" class="form-control form-control-lg"
                        id="datafim"
-                       placeholder="Data de Término do Evento" required>
+                       oninput="modificaDataInicio()"
+                       onchange="modificaDataInicio()"
+                       placeholder="Data de Término do Evento" required disabled>
             </div>
             <div class="mb-3 col-xl-6 col-lg-6 col-md-6">
                 <label style="font-size: 20px;" for="link">Link:* </label>
@@ -198,8 +209,8 @@
                         <div id="image_demo" style="width:350px; margin-top:30px"></div>
                     </div>
                     <div class="col-md-4" style="padding-top:30px;">
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <br/>
                         <button class="btn btn-success crop_image">Upload & Cortar Imagem</button>
                     </div>
@@ -274,27 +285,42 @@
     });
 </script> -->
 <script>
-    $(document).ready(function(){
+
+    function modificaDataInicio() {
+        dataInicio = document.getElementById("datainicio");
+        dataFim = document.getElementById("datafim");
+        dataInicio.setAttribute("max", dataFim.value);
+
+    }
+
+    function modificaDataFim() {
+        dataInicio = document.getElementById("datainicio");
+        dataFim = document.getElementById("datafim");
+        dataFim.disabled = false;
+        dataFim.setAttribute("min", dataInicio.value);
+    }
+
+    $(document).ready(function () {
 
         $image_crop = $('#image_demo').croppie({
             enableExif: true,
             viewport: {
-                width:300,
-                height:300,
-                type:'square' //circle
+                width: 300,
+                height: 300,
+                type: 'square' //circle
             },
-            boundary:{
-                width:300,
-                height:300
+            boundary: {
+                width: 300,
+                height: 300
             }
         });
 
-        $('#upload_image').on('change', function(){
+        $('#upload_image').on('change', function () {
             var reader = new FileReader();
             reader.onload = function (event) {
                 $image_crop.croppie('bind', {
                     url: event.target.result
-                }).then(function(){
+                }).then(function () {
                     console.log('jQuery bind complete');
                 });
             }
@@ -302,25 +328,23 @@
             $('#uploadimageModal').modal('show');
         });
 
-        $('.crop_image').click(function(event){
+        $('.crop_image').click(function (event) {
             $image_crop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
-            }).then(function(response){
+            }).then(function (response) {
                 $.ajax({
-                    url:"upload",
+                    url: "upload",
                     type: "POST",
-                    data:{"image": response},
-                    success:function(data)
-                    {
+                    data: {"image": response},
+                    success: function (data) {
                         $('#uploadimageModal').modal('hide');
-                        $('#uploaded_image').html('<img src="assets/images/events/'+ data +'" class="img-thumbnail" />');
+                        $('#uploaded_image').html('<img src="assets/images/events/' + data + '" class="img-thumbnail" />');
                         $('#imagem').val(data);
                     }
                 });
             })
         });
-
     });
 </script>
 

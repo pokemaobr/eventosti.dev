@@ -469,7 +469,6 @@
             json => {
                 if (json.data === 1) {
                     const botaoId = document.getElementById('pagoId'+id);
-                    console.log(botaoId);
                     botaoId.removeChild(botaoId.querySelector('svg'));
                     botaoId.innerHTML = '<i class="fab fa-vuejs"></i>';
                     const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-nao-pago/' + id;
@@ -483,7 +482,6 @@
             json => {
                 if (json.data === 1) {
                     const botaoId = document.getElementById('gratuitoId'+id);
-                    console.log(botaoId);
                     botaoId.removeChild(botaoId.querySelector('svg'));
                     botaoId.innerHTML = '<i class="fas fa-eye-slash"></i>';
                     const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-gratuito/' + id;
@@ -499,7 +497,6 @@
             json => {
                 if (json.data === 1) {
                     const botaoId = document.getElementById('gratuitoId'+id);
-                    console.log(botaoId);
                     botaoId.removeChild(botaoId.querySelector('svg'));
                     botaoId.innerHTML = '<i class="fab fa-vuejs"></i>';
                     const linkNovo = '{{ app.request.schemeAndHttpHost }}/transformar-em-evento-nao-gratuito/' + id;

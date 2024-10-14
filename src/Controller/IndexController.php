@@ -54,7 +54,7 @@ class IndexController extends AbstractController
     public function cadastro(Request $request, MailerInterface $mailer): Response
     {
 
-        $entityManager = $this->doctrine->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento = new Eventos;

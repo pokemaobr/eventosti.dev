@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Call4papers;
 use App\Repository\Call4papersRepository;
+use App\Service\ThreadsService;
 use App\Service\TwitterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,11 +32,11 @@ class IndexController extends AbstractController
     {
         $hoje = new \DateTime();
 
-        $eventos = $this->getDoctrine()
+        $eventos = $this->doctrine
             ->getRepository(Eventos::class)
             ->pegarEventosFuturosHabilitados($hoje);
 
-        $call4papers = $this->getDoctrine()
+        $call4papers = $this->doctrine
             ->getRepository(Call4papers::class)
             ->pegarCall4PapersAbertosHabilitados($hoje);
 
@@ -53,7 +54,7 @@ class IndexController extends AbstractController
     public function cadastro(Request $request, MailerInterface $mailer): Response
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
 
         try {
             $evento = new Eventos;
@@ -111,7 +112,7 @@ class IndexController extends AbstractController
     public function cadastroCall4Papers(Request $request, MailerInterface $mailer): Response
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento = new Call4papers();
@@ -204,11 +205,11 @@ class IndexController extends AbstractController
 
             $hoje = new \DateTime();
 
-            $eventos = $this->getDoctrine()
+            $eventos = $this->doctrine
                 ->getRepository(Eventos::class)
                 ->pegarEventosFuturos($hoje);
 
-            $call4papers = $this->getDoctrine()
+            $call4papers = $this->doctrine
                 ->getRepository(Call4papers::class)
                 ->pegarCall4PapersAbertos($hoje);
 
@@ -231,12 +232,15 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setHabilitado(1);
             $entityManager->persist($evento);
             $entityManager->flush();
+
+            //$threads = new ThreadsService();
+            //$threads->enviaMensagemCadastroEvento($evento);
 
             $telegram = new TelegramService();
             $telegram->enviaMensagemCadastroEvento($_ENV['CHAT_ID'], $evento);
@@ -272,7 +276,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setHabilitado(0);
@@ -303,7 +307,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setHabilitado(1);
@@ -343,7 +347,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setHabilitado(0);
@@ -374,7 +378,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setGratuito(1);
@@ -409,7 +413,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setGratuito(0);
@@ -440,7 +444,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setPago(1);
@@ -475,7 +479,7 @@ class IndexController extends AbstractController
             );
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine;
 
         try {
             $evento->setPago(0);

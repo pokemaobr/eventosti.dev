@@ -89,8 +89,8 @@ class IndexController extends AbstractController
             $entityManager->persist($evento);
             $entityManager->flush();
 
-            $email = new EmailService($_ENV['USUARIO_EMAIL'], $_ENV['ENDERECO_EMAIL']);
-            $email->avisarCadastro($request->request->get('nome'), $mailer);
+            //$email = new EmailService($_ENV['USUARIO_EMAIL'], $_ENV['ENDERECO_EMAIL']);
+            //$email->avisarCadastro($request->request->get('nome'), $mailer);
 
             return $this->redirectToRoute('cadastrar', ['status' => 1]);
 

@@ -286,6 +286,12 @@
 </script> -->
 <script>
 
+    {% if (app.request.query.get("status") is defined and app.request.query.get("status") == 1) %}
+
+    document.getElementById("submit").disabled = true;
+
+    {% endif %}
+
     function modificaDataInicio() {
         dataInicio = document.getElementById("datainicio");
         dataFim = document.getElementById("datafim");
